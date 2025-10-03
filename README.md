@@ -9,7 +9,7 @@ A full-stack e-commerce platform that enables users to customize electronic devi
 
 ## 🚀 Live Demo
 
-**[https://customcraft.onrender.com/index.html](https://customcraft.onrender.com/index.html)**
+**<a href="https://customcraft.onrender.com/index.html">Live </a>**
 
 ## 📋 Project Overview
 
@@ -74,25 +74,25 @@ npm install
 
 MONGODB_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
-PORT=5000
+PORT=5000<br>
 
 # Start backend server (from backend directory)
 npm start
 
 # Start frontend development server (from frontend directory)
-npm start
+npm start<br>
 
-customcraft/
-├── frontend/                 # React application
-│   ├── src/
-│   │   ├── components/      # Reusable UI components
-│   │   ├── pages/          # Page components
-│   │   ├── context/        # React context for state management
-│   │   └── utils/          # Utility functions
-│   └── public/             # Static assets
-├── backend/                 # Node.js server
-│   ├── models/             # MongoDB models
-│   ├── routes/             # API routes
-│   ├── middleware/         # Custom middleware
-│   └── controllers/        # Route controllers
-└── README.md
+customcraft/<br>
+├── frontend/                 # React application<br>
+│   ├── src/<br>
+│   │   ├── components/      # Reusable UI components<br>
+│   │   ├── pages/          # Page components<br>
+│   │   ├── context/        # React context for state management<br>
+│   │   └── utils/          # Utility functions<br>
+│   └── public/             # Static assets<br>
+├── backend/                 # Node.js server<br>
+│   ├── models/             # MongoDB models<br>
+│   ├── routes/             # API routes<br>
+│   ├── middleware/         # Custom middleware<br>
+│   └── controllers/        # Route controllers<br>
+└── README.md<br>
