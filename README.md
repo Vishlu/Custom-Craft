@@ -72,8 +72,8 @@ cd ../frontend
 npm install
 
 
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
+MONGODB_URI=your_mongodb_connection_string<br>
+JWT_SECRET=your_jwt_secret<br>
 PORT=5000<br>
 
 # Start backend server (from backend directory)
