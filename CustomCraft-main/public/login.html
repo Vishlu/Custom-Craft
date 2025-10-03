@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<link rel="icon" type="image/png" sizes="32x32" href="img/cc.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jaro:opsz@6..72&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=Jaro:opsz@6..72&family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - CustomCraft</title>
+    <style>
+ body {
+    font-family: 'Urbanist', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, #f6e7da, #d0c4df); /* Soft pastel blend */
+    filter: blur(20px); /* Apply background blur */
+    z-index: -1;
+}
+
+.container {
+    background: rgba(255, 255, 255, 0.2); /* semi-transparent background */
+    padding: 30px;
+    padding-right: 60px;
+    padding-left: 40px;
+
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+
+    backdrop-filter: blur(10px); /* Apply blur */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Optional border for contrast */
+}
+
+        img{
+            height: 100px;
+            width: 100px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #333; /* Darker text for better readability */
+        }
+
+        input {
+            display: block;
+            width: 100%;
+            margin: 10px 0;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: #ff973c; /* Highlight border on focus */
+            outline: none; /* Remove default outline */
+        }
+
+        button {
+            background-color: #ff973c; /* Custom button color */
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        button:hover {
+            background-color: #f68d45; /* Darker shade on hover */
+            transform: scale(1.05); /* Slightly enlarge button on hover */
+        }
+
+        p {
+            margin-top: 15px;
+            color: #666; /* Lighter text for secondary information */
+        }
+
+        a {
+            color: #ff973c; /* Link color */
+            text-decoration: none; /* Remove underline */
+        }
+
+        a:hover {
+            text-decoration: underline; /* Underline on hover */
+        }
+
+        #loginMessage {
+            margin-top: 15px;
+            color: red; /* Error message color */
+        }
+
+
+        
+        .password-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            width: 100%;
+            padding-right: 40px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .toggle-password {
+            position: absolute;
+            top: 50%;
+            right: 0px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #888;
+            user-select: none;
+        }
+
+        .toggle-password:hover {
+            color: #ff973c;
+        }
+
+        @media (max-width: 400px) {
+            .container {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+     <center> <img src="img/cc.png" alt="">
+     <!-- <h2>CustomCraft</h2> -->
+        <h2>Login</h2></center> 
+        <form id="loginForm">
+            <input type="email" id="email" placeholder="Email" required>
+            <div class="password-wrapper">
+                <input type="password" id="password" placeholder="Password" required aria-label="Password">
+                <span class="toggle-password" id="togglePassword">👁️</span>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+        <p>Don't have an account? <a href="signup.html">Sign up here</a></p>
+        <p id="loginMessage"></p>
+    </div>
+
+    <script>
+               document.getElementById("loginForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            const response = await fetch("/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+            document.getElementById("loginMessage").innerText = data.message;
+
+            if (response.ok) {
+                localStorage.setItem("token", data.token); // Store JWT Token
+                setTimeout(() => window.location.href = "index.html", 2000);
+            }
+        });
+        document.getElementById("togglePassword").addEventListener("click", function () {
+            const passwordField = document.getElementById("password");
+            const type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
+    
+            this.textContent = type === "password" ? "👁️" : "🙈";
+        });
+    
+        </script>
+</body>
+</html>

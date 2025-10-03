@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - CustomCraft</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+ /* For Webkit browsers (Chrome, Safari, Edge) */
+ ::-webkit-scrollbar {
+        width: 5px;
+        /* Width of the scrollbar */
+        height: 12px;
+        /* Height of the scrollbar (for horizontal scrollbar) */
+        border-radius: 20px;
+        background-color: #ff973c;
+    }
+
+    ::-webkit-scrollbar-track {
+        background-color: whitesmoke;
+        /* Color of the scrollbar track */
+        border-radius: 10px;
+        color: red;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #FFB473;
+        ;
+        /* Color of the scrollbar thumb */
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: #555;
+        /* Hover color for the scrollbar thumb */
+    }
+
+html{
+    scroll-behavior: smooth;
+}
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Urbanist", sans-serif;
+      }
+
+      body {
+        /* background: url("https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&w=1920&q=80")
+          no-repeat center center fixed; */
+          background: linear-gradient(135deg, #f6e7da, #d0c4df); /* Soft pastel blend */
+        background-size: cover;
+        backdrop-filter: blur(10px);
+        height: 100vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .main {
+        width: 95%;
+        max-width: 600px;
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+      }
+
+      .logo {
+        height: 50px;
+      }
+
+      .user-info {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .user-text {
+        color: black;
+      }
+
+      .user-text span {
+        font-size: 1.2em;
+        font-weight: 600;
+      }
+
+      .profile-circle {
+        width: 60px;
+        height: 60px;
+        background: #ff9f43;
+        color: black;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.2em;
+        font-weight: bold;
+      }
+
+      .dashboard {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 15px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.12);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        color: black;
+        transition: 0.3s ease;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .card:hover {
+        transform: translateY(-5px);
+      }
+
+      .card h2 {
+        font-size: 1.3em;
+        margin-bottom: 8px;
+      }
+
+      .card p {
+        font-size: 1em;
+        color: black;
+      }
+
+      .active-orders-container {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 15px;
+        padding: 20px;
+        color: black;
+        max-height: 240px;
+        overflow-y: auto;
+      }
+
+      .active-orders-container h2 {
+        margin-bottom: 10px;
+      }
+
+      #order-list li {
+        list-style: none;
+        padding: 10px 0;
+        border-bottom: 0.1px solid black;
+        font-size: 0.95em;
+      }
+
+      #order-list li:last-child {
+        border-bottom: none;
+      }
+
+      .logout-btn {
+        background: #ff4b5c;
+        color: black;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1em;
+        width: 100%;
+        transition: background 0.3s;
+      }
+
+      .logout-btn:hover {
+        background: #d9364a;
+      }
+
+      footer {
+        text-align: center;
+        padding: 10px;
+        font-size: 0.85em;
+        color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main">
+      <div class="header">
+        <img src="img/cc.png" alt="CustomCraft Logo" class="logo" />
+        <div class="user-info">
+          <div class="user-text">
+            <span>Welcome, <span id="userFullName"></span>!</span><br />
+            Email: <span id="userEmail"></span>
+          </div>
+          <div class="profile-circle" id="userInitials"></div>
+        </div>
+      </div>
+
+      <div class="dashboard">
+        <div class="card">
+          <h2>Your Orders</h2>
+          <p>Active Orders: <span id="activeOrders">0</span></p>
+        </div>
+      </div>
+
+      <div id="active-orders" class="active-orders-container">
+        <h2>Your Active Orders</h2>
+        <ul id="order-list">
+          <!-- Orders will be shown here -->
+        </ul>
+      </div>
+
+      <button class="logout-btn" onclick="logout()">Logout</button>
+
+      <footer>
+        <p>&copy; 2025 CustomCraft. All Rights Reserved.</p>
+      </footer>
+    </div>
+
+    <script>
+      async function fetchUserData() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          window.location.href = "/login.html";
+          return;
+        }
+
+        const userResponse = await fetch("/dashboard", {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const userData = await userResponse.json();
+
+        if (userData.user) {
+          document.getElementById("userFullName").textContent =
+            userData.user.name;
+          document.getElementById("userEmail").textContent =
+            userData.user.email;
+
+          const initials = userData.user.name
+            .split(" ")
+            .map((word) => word[0])
+            .join("")
+            .toUpperCase();
+          document.getElementById("userInitials").textContent = initials;
+
+          const ordersResponse = await fetch("/my-orders", {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const ordersData = await ordersResponse.json();
+
+          const activeOrders = ordersData.orders;
+          document.getElementById("activeOrders").textContent =
+            activeOrders.length;
+
+          const orderList = document.getElementById("order-list");
+          activeOrders.forEach((order) => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+            <strong>Order ID:</strong> ${order._id}<br>
+            <strong>Status:</strong> ${order.status}<br>
+            <strong>Amount:</strong> ₹${order.amount}<br>
+            <strong>Created:</strong> ${new Date(
+              order.createdAt
+            ).toLocaleDateString()}
+          `;
+            orderList.appendChild(li);
+          });
+        } else {
+          alert("Session expired. Please log in again.");
+          window.location.href = "/login.html";
+        }
+      }
+
+      function logout() {
+        localStorage.removeItem("token");
+        window.location.href = "/login.html";
+      }
+
+      fetchUserData();
+    </script>
+  </body>
+</html>

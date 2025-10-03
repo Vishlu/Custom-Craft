@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@100..900&display=swap" rel="stylesheet">
+
+    <style>
+        /* For Webkit browsers (Chrome, Safari, Edge) */
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 12px;
+            border-radius: 20px;
+            background-color: #ff973c;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: whitesmoke;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: #FFB473;
+            border-radius: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+        body {
+            font-family: "Urbanist", sans-serif;
+            background-color: #F6E7DA;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        nav {
+            background-color: #FFB473;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            font-size: 20px;
+            box-shadow: 0px 0.8px 1px -1px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 50px;
+            width: 50px;
+            padding-left: 20px;
+        }
+
+        .logo img:hover {
+            transition: 0.5s;
+            transform: scale(1.1);
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 2em;
+            font-weight: bold;
+            margin-left: 20px;
+        }
+
+        .link ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .link ul li {
+            margin-top: 9px;
+        }
+
+        .link ul li a {
+            text-decoration: none;
+            color: #333;
+            padding-right: 50px;
+        }
+
+        .cart-container {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 20px;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .device-info img {
+            width: 120px;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        h3 {
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff4d00;
+        }
+
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quantity-control button {
+            padding: 5px 10px;
+            border: none;
+            background: #FFB473;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .promo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .promo-container input {
+            padding: 10px;
+            width: 200px;
+            margin-bottom: 10px;
+        }
+
+        .pay-button {
+            display: block;
+            width: 250px;
+            margin: 20px auto;
+            padding: 12px;
+            background: #FFB473;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .pay-button:hover {
+            background: #ff973c;
+        }
+
+        .pricing-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-top: 20px;
+        }
+
+        .pricing-details p {
+            margin: 5px 0;
+        }
+
+        .address-container {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .address-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #FFB473;
+            color: black;
+            padding: 0px 0;
+            text-align: center;
+            font-family: "Urbanist", sans-serif;
+        }
+
+        .footer-container {
+            width: 1491px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+
+        .footer-content div {
+            flex: 1;
+            padding: 10px;
+            min-width: 200px;
+        }
+
+        .footer-content h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .footer-content p {
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .footer-content ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-content ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-content ul li a {
+            color: black;
+            text-decoration: none;
+            font-size: 20px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-content ul li a:hover {
+            color: white;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .social-icons a {
+            margin: 0 8px;
+            font-size: 16px;
+            color: black;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #f39c12;
+        }
+
+        .footer-bottom {
+            padding: 1px 0;
+            font-size: 12px;
+            color: black;
+        }
+
+        .footer-bottom p {
+            margin: 0;
+        }
+
+
+        
+        .profile-icon {
+    width: 40px;
+    height: 40px;
+    background-color: #ff973c; /* Custom color */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    border: 3px solid black;
+}
+#profileSection{
+    padding-right: 10px;
+
+
+}
+
+/* .user-profile{
+    padding-right: 10px;
+} */
+
+.user-logo {
+    height: 40px;
+    width: 40px;
+   
+    padding-right: 135px;
+  
+}
+
+.profile-icon:hover {
+    background-color: #f68d45; /* Darker shade on hover */
+}
+
+
+
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">
+            <a href="index.html"><img src="img/cc.png" height="1000px" width="100px" alt="CustomCraft Logo" /></a>
+            <h1 style="font-family: Anonymous Pro, monospace;">CustomCraft</h1>
+        </div>
+        <div class="link">
+            <ul>
+                <li><a href="Build.html">Customize-Devices</a></li>
+                <li><a href="index.html#scroll-container">Smartphone</a></li>
+                <li><a href="index.html#scroll-container">Laptops</a></li>
+                <li><a href="index.html#scroll-container">Tablet</a></li>
+                <ul class="cart-user">
+                    <a class="cart" href="cart.html"><img src="img/cart2.png" height="40px" width="40px"
+                            alt="CustomCraft Logo" /></a>
+                            
+                            <a href="dashboard.html" style="text-decoration: none;"
+                        class="user-profile">
+                        <div id="profileSection">
+                            <!-- Logo will be shown by default -->
+                            <img src="img/user1.png" class="user-logo" height="40px" width="40px" padding-left="100px"
+                                alt="CustomCraft Logo" />
+                        </div>
+                    </a>
+        </div>
+        </a>
+        </ul>
+        </ul>
+        </div>
+    </nav>
+
+    <br><br><br><br>
+
+    <h1 style="text-align: center;">Shopping Cart</h1>
+    <h1  style="text-align: center;font-size: 20px;font-weight:3;">Step 3 of 3</h1>
+
+    <div class="cart-container">
+        <div class="cart-item">
+            <div class="device-info">
+                <h3>Device Specifications</h3>
+                <img id="spec-image" src="" alt="Selected Device Image">
+                <p><strong>Device:</strong> <span id="spec-device"></span></p>
+                <p><strong>Processor:</strong> <span id="spec-processor"></span></p>
+                <p><strong>RAM:</strong> <span id="spec-ram"></span></p>
+                <p><strong>Storage:</strong> <span id="spec-storage"></span></p>
+                <p><strong>OS:</strong> <span id="spec-os"></span></p>
+            </div>
+            <div class="vendor-info">
+                <h3>Vendor Information</h3>
+                <p><strong>Vendor:</strong> <span id="vendor-name"></span></p>
+                <p><strong>About:</strong> <span id="vendor-about"></span></p>
+                <p><strong>Address:</strong> <span id="vendor-address"></span></p>
+            </div>
+            <div class="price-info">
+                <h3>Price Information</h3>
+                <p class="price" id="vendor-price">₹0.00</p>
+                <div class="quantity-control">
+                    <button id="decrease-quantity">-</button>
+                    <span id="quantity">1</span>
+                    <button id="increase-quantity">+</button>
+                </div>
+                <div class="promo-container">
+                    <input type="text" id="promo-code" placeholder="Enter Promo Code">
+                    <button onclick="applyPromoCode()">Apply</button>
+                </div>
+                <div class="promom" id="promom"></div>
+                <div class="pricing-details">
+                    <p>Normal Price: ₹<span id="normal-price">0.00</span></p>
+                    <p>Discount: ₹<span id="discount">0.00</span></p>
+                    <p>Delivery Charges: ₹<span id="delivery-charges">200.00</span></p>
+                    <p class="price" id="final-price">Final Price: ₹0.00</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="address-container">
+            <h3>Enter Your Address</h3>
+            <input type="text" id="address" placeholder="Street Address" required>
+            <input type="text" id="city" placeholder="City" required>
+            <input type="text" id="state" placeholder="State" required>
+            <input type="text" id="zip" placeholder="Zip Code" required>
+        </div>
+
+        <div class="message" id="message"></div>
+
+        <button class="pay-button" id="payBtn">Pay Now</button>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-content">
+                <div>
+                    <img src="img/cc.png" alt="" style="height: 80px;width: 80px;">
+                    <h1 style="font-family: Anonymous Pro">CustomCraft</h1>
+                    <p>We offer a unique way to customize tech devices just the way you like it. Choose your
+                        specifications and build your dream device with ease!</p>
+                </div>
+                <div>
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="index.html#scroll-container">Shop</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="about.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Stay Connected</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">
+                            <img src="img/facebook.png" alt="Facebook" style="width: 50px; height: 50px;">
+                        </a>
+                        <a href="#" class="social-icon">
+                            <img src="img/twitter.png" alt="Twitter" style="width: 50px; height: 50px;">
+                        </a>
+                        <a href="https://www.instagram.com/surajdhariya_/" class="social-icon">
+                            <img src="img/instagram.png" alt="Instagram" style="width: 50px; height: 50px;">
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 CustomCraft. All rights reserved.</p>
+                <br>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let basePrice, discount, deliveryCharges = 99;
+        let quantity = 1;
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const selectedSpecs = JSON.parse(localStorage.getItem("selectedSpecs"));
+            const selectedVendor = JSON.parse(localStorage.getItem("selectedVendor"));
+
+            if (!selectedSpecs || !selectedVendor) {
+                document.getElementById("message").textContent = "⚠️ No items in the cart! Redirecting...";
+                setTimeout(() => {
+                    window.location.href = "Build.html";
+                }, 2000);
+                return;
+            }
+
+            // Populate the cart with the selected specifications and vendor details
+            document.getElementById("spec-device").textContent = selectedSpecs.device;
+            document.getElementById("spec-processor").textContent = selectedSpecs.processor;
+            document.getElementById("spec-ram").textContent = selectedSpecs.ram;
+            document.getElementById("spec-storage").textContent = selectedSpecs.storage;
+            document.getElementById("spec-os").textContent = selectedSpecs.os;
+
+            const deviceImages = {
+                computer: '../img/coding.png',
+                smartphone: '../img/phone.png',
+                tablet: '../img/ipad.png',
+            };
+            document.getElementById("spec-image").src = deviceImages[selectedSpecs.device] || "";
+
+            // Populate the vendor details
+            document.getElementById("vendor-name").textContent = selectedVendor.name;
+            document.getElementById("vendor-about").textContent = selectedVendor.about;
+            document.getElementById("vendor-address").textContent = selectedVendor.address;
+
+            // Set base price and update UI
+            basePrice = parseFloat(selectedVendor.price.replace(/₹/, ""));
+            discount = 0; // No discount initially
+            updateCartUI();
+
+            // Add event listeners for quantity control
+            document.getElementById("increase-quantity").addEventListener("click", () => {
+                quantity++;
+                updateCartUI();
+            });
+
+            document.getElementById("decrease-quantity").addEventListener("click", () => {
+                if (quantity > 1) {
+                    quantity--;
+                    updateCartUI();
+                }
+            });
+        });
+
+        function applyPromoCode() {
+            const promoCode = document.getElementById("promo-code").value;
+            if (promoCode === "customcraft") {
+                discount = basePrice * 0.10; // Apply 10% discount
+                document.getElementById("promom").textContent = "✅ Promo code applied! 10% discount added.";
+            } else {
+                document.getElementById("promom").textContent = "❌ Invalid promo code";
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            let totalPrice = basePrice * quantity;
+            let finalPrice = totalPrice - discount + deliveryCharges;
+            if (isNaN(finalPrice)) finalPrice = 0;
+
+            document.getElementById("normal-price").textContent = (totalPrice).toFixed(2);
+            document.getElementById("discount").textContent = discount.toFixed(2);
+            document.getElementById("delivery-charges").textContent = deliveryCharges.toFixed(2);
+            document.getElementById("final-price").textContent = "Final Price: ₹" + finalPrice.toFixed(2);
+            document.getElementById("vendor-price").textContent = "₹" + basePrice.toFixed(2);
+            document.getElementById("quantity").textContent = quantity;
+        }
+
+
+
+
+// Address field validation
+document.getElementById("address").addEventListener("input", function () {
+    const val = this.value;
+    const isValid = /^[a-zA-Z0-9\s,.-/]+$/.test(val);
+    toggleValidation(this, isValid, "Only letters, numbers, commas, dots allowed.");
+});
+
+document.getElementById("city").addEventListener("input", function () {
+    const val = this.value;
+    const isValid = /^[a-zA-Z\s]+$/.test(val);
+    toggleValidation(this, isValid, "Only letters and spaces allowed.");
+});
+
+document.getElementById("state").addEventListener("input", function () {
+    const val = this.value;
+    const isValid = /^[a-zA-Z\s]+$/.test(val);
+    toggleValidation(this, isValid, "Only letters and spaces allowed.");
+});
+
+document.getElementById("zip").addEventListener("input", function () {
+    const val = this.value;
+    const isValid = /^\d{0,6}$/.test(val); // max 6 digits
+    toggleValidation(this, isValid, "Only numbers allowed (up to 6 digits).");
+});
+
+function toggleValidation(inputElement, isValid, message) {
+    if (!isValid) {
+        inputElement.style.borderColor = "red";
+        if (!inputElement.nextElementSibling || !inputElement.nextElementSibling.classList.contains("error-msg")) {
+            const msg = document.createElement("div");
+            msg.classList.add("error-msg");
+            msg.style.color = "red";
+            msg.style.fontSize = "12px";
+            msg.textContent = message;
+            inputElement.parentNode.insertBefore(msg, inputElement.nextSibling);
+        }
+    } else {
+        inputElement.style.borderColor = "";
+        if (inputElement.nextElementSibling && inputElement.nextElementSibling.classList.contains("error-msg")) {
+            inputElement.nextElementSibling.remove();
+        }
+    }
+}
+
+
+        document.getElementById("payBtn").addEventListener("click", async () => {
+            // Get address values
+            const address = document.getElementById("address").value.trim();
+            const city = document.getElementById("city").value.trim();
+            const state = document.getElementById("state").value.trim();
+            const zip = document.getElementById("zip").value.trim();
+
+            // Validate address fields
+            if (!address || !city || !state || !zip) {
+                document.getElementById("message").textContent = "⚠️ Please fill in all address fields before proceeding.";
+                return;
+            }
+
+            const finalPrice = parseFloat(document.getElementById("final-price").textContent.replace(/Final Price: ₹/, ""));
+            const jwtToken = localStorage.getItem("token");
+
+            if (!jwtToken) {
+                alert("You need to log in before making a payment!");
+                return;
+            }
+
+            const response = await fetch("http://127.0.0.1:3005/create-order", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`
+                },
+                body: JSON.stringify({ amount: finalPrice })
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                alert("Error creating order: " + error.message);
+                return;
+            }
+
+            const order = await response.json();
+
+            const options = {
+                key: "rzp_test_fS7ZcRoBQcK9nv",
+                amount: order.amount,
+                currency: "INR",
+                order_id: order.id,
+                handler: async function (response) {
+                    alert("✅ Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                    const saveOrderResponse = await fetch("http://127.0.0.1:3005/my-orders", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${jwtToken}`
+                        },
+                        body: JSON.stringify({
+                            specs: selectedSpecs, // Ensure this is defined
+                            vendor: selectedVendor, // Ensure this is defined
+                            amount: finalPrice,
+                            paymentId: response.razorpay_payment_id,
+                            address: `${address}, ${city}, ${state} - ${zip}`,
+                            status: "active"
+                        })
+                    });
+
+                    if (saveOrderResponse.ok) {
+                        // Fetch active orders after saving the order
+                        const ordersResponse = await fetch("http://127.0.0.1:3005/get-active-orders", {
+                            method: "GET",
+                            headers: {
+                                "Authorization": `Bearer ${jwtToken}`
+                            }
+                        });
+
+                        if (ordersResponse.ok) {
+                            const orders = await ordersResponse.json();
+                            displayOrders(orders.orders); // Call a function to display orders
+                        } else {
+                            alert("Error fetching orders.");
+                        }
+                    } else {
+                        alert("Error saving order.");
+                    }
+                },
+                prefill: {
+                    name: document.getElementById("userFullName") ? document.getElementById("userFullName").textContent : "Guest",
+                    email: document.getElementById("userEmail") ? document.getElementById("userEmail").textContent : "guest@example.com",
+                    contact: "1234567890"
+                }
+            };
+
+            const rzp = new Razorpay(options);
+            rzp.open();
+        });
+
+        function displayOrders(orders) {
+            const ordersContainer = document.getElementById("active-orders"); // Ensure this ID exists in your HTML
+            ordersContainer.innerHTML = ""; // Clear previous orders
+
+            if (orders.length === 0) {
+                ordersContainer.innerHTML = "<p>No active orders found.</p>";
+                return;
+            }
+
+            orders.forEach(order => {
+                const orderElement = document.createElement("div");
+                orderElement.className = "order-item";
+                orderElement.innerHTML = `
+            <p>Order ID: ${order.id}</p>
+            <p>Amount: ₹${order.amount}</p>
+            <p>Status: ${order.status}</p>
+            <p>Address: ${order.address}</p>
+        `;
+                ordersContainer.appendChild(orderElement);
+            });
+
+
+
+            
+        }
+
+        async function fetchUserData() {
+                const token = localStorage.getItem("token");
+                if (!token) {
+                    // If no token, keep the logo
+                    return;
+                }
+
+                const response = await fetch("/dashboard", {
+                    method: "GET",
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+
+                const data = await response.json();
+                if (data.user) {
+                    // Extract initials from the user's name
+                    const initials = data.user.name
+                        .split(" ")
+                        .map((word) => word[0])
+                        .join("")
+                        .toUpperCase();
+
+                    // Replace the logo with the dynamic profile icon
+                    const profileSection = document.getElementById("profileSection");
+                    profileSection.innerHTML = `<div class="profile-icon">${initials}</div>`;
+                } else {
+                    // If the token is invalid, redirect to login
+                    alert("Session expired. Please log in again.");
+                    window.location.href = "/login.html";
+                }
+            }
+
+            fetchUserData();
+    </script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</body>
+
+</html>
